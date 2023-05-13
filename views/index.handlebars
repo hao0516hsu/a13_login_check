@@ -1,14 +1,14 @@
-<h1>Login Page</h1>
-<form action="/" method="POST">
-  <div>
-    <p>Account: </p>
-    <input type="text" placeholder="example@mail.com" name="accn" value="{{accn}}" required>
-  </div>
-  <div>
-    <p>Password: </p>
-    <input type="password" placeholder="Your password..." name="pw" value="{{pw}}" required>
-  </div>
-  {{#if emailErr}} <p>This account does not exist!</p> {{/if}}
-  {{#if passwordErr}} <p>Password Error!</p> {{/if}}
-  <button type="submit">Submit</button>
-</form>
+<div class="container">
+  <form action="/" method="POST" class="d-flex flex-column align-items-center">
+    <h1 class="my-4" id="login-topic">Account Login</h1>
+    <div>
+      <input type="text" class="mb-4" placeholder="Email" name="accn" value="{{accn}}" required>
+    </div>
+    <div>
+      <input type="password" class="mb-4" placeholder="Password" name="pw" value="{{pw}}" required>
+    </div>
+    {{#if emailErr}} <p>This account does not exist!</p> {{/if}}
+    {{#if passwordErr}} <p>Password Error!</p> {{/if}}
+    <button type="submit" class="btn btn-outline-primary btn-sm ">Sign in</button>
+  </form>
+</div>
