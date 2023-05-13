@@ -2,6 +2,7 @@ const express = require("express")
 const exphbs = require("express-handlebars")
 const bodyParser = require("body-parser")
 const mongoose = require("mongoose")
+const User = require('./models/user_account')
 
 const app = express()
 
@@ -32,12 +33,24 @@ app.get("/", (req, res) => {
 
 app.post("/", (req, res) => {
   const { accn, pw } = req.body
-  res.redirect('/home')
+
+  User.findOne({ email: accn })
+    .lean()
+    .then(user => {
+      if (!user) {
+        const emailErr = true
+        res.render('index', { emailErr, accn, pw })
+      } else if (user.password !== pw) {
+        const passwordErr = true
+        res.render('index', { passwordErr, accn, pw })
+      } else {
+        res.render('login_success', { user })
+      }
+    })
+    .catch(error => console.log(error))
 })
 
-app.get("/home", (req, res) => {
-  res.render('login_success')
-})
+
 app.listen(3000, () => {
   console.log(`App is listening to http://localhost:3000`)
 })
