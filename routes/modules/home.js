@@ -4,7 +4,15 @@ const router = express.Router()
 const User = require('../../models/user_account')
 
 router.get("/", (req, res) => {
-  res.render('index')
+  // 檢查Cookies
+  const user = req.cookies.username
+  if (!user) {
+    // 沒有登入的cookies時，進到登入畫面
+    res.render('index')
+  } else {
+    // 有登入的cookies時，進到會員畫面
+    res.render('login_success',{user})
+  }
 })
 
 router.post("/", (req, res) => {
@@ -20,6 +28,8 @@ router.post("/", (req, res) => {
         const passwordErr = true
         res.render('index', { passwordErr, accn, pw })
       } else {
+        // 登入成功後，產生cookies
+        res.cookie('username', user)
         res.render('login_success', { user })
       }
     })
